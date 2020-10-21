@@ -6,7 +6,7 @@ namespace ATM_system__EAD_
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
