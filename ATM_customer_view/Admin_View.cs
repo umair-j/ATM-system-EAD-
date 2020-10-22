@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ATM_BLL;
+using ATM_BO;
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +9,12 @@ namespace ATM_view
 {
     class Admin_View
     {
+        public int option = default;
+        public Customer_BO C_bo = new Customer_BO();
+        public Admin_BLL adminBLL = new Admin_BLL();
         public void Admin_menu()
         {
+
             Console.WriteLine("------WELCOME TO ADMIN VIEW------");
             Console.WriteLine("-----PLEASE CHOOSE AN OPTION-----\n" +
                 "1----CREATE NEW ACCOUNT\n" +
@@ -16,11 +23,12 @@ namespace ATM_view
                 "4----SEARCH FOR ACCOUNT ACCOUNT\n" +
                 "5----VIEW REPORTS\n" +
                 "6----EXIT");
-            int option = System.Convert.ToInt32(Console.ReadLine());
+                option = System.Convert.ToInt32(Console.ReadLine());
             switch (option)
             {
                 case 1:
                     //call new account function
+                    adminBLL.NewAccount();
                     break;
                 case 2:
                     //call delete existing account function
@@ -41,9 +49,12 @@ namespace ATM_view
                 default:
                     //call update account information function
                     Console.WriteLine("PLEASE ENTER A VALID OPTION (1-6)");
+                    option = 0;
                     break;
             }
 
         }
+        
+
     }
 }
