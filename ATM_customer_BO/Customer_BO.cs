@@ -13,5 +13,8 @@ namespace ATM_BO
         public int Pin { get; set; }
         //getter and setter for Balance
         public int Balance { get; set; }
+        public string Name { get; set; }
+        public string AccountStatus { get; set; }
+        public string AccountType { get; set; }
     }
 }

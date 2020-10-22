@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ATM_view
 {
-    class Admin_View
+    public class Admin_View
     {
         public int option = default;
         public Customer_BO C_bo = new Customer_BO();
@@ -28,10 +28,25 @@ namespace ATM_view
             {
                 case 1:
                     //call new account function
-                    adminBLL.NewAccount();
+                    Console.WriteLine("Enter Login ID");
+                    string CustomerId = Console.ReadLine();
+                    Console.WriteLine("Assign a pin to " + CustomerId);
+                    int CustomerPin = System.Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter Holder's name");
+                    string CustomerName = Console.ReadLine();
+                    Console.WriteLine("Enter Account Type (savings/current)");
+                    string CustomerAccountType = Console.ReadLine();
+                    Console.WriteLine("Enter Balance");
+                    int CustomerBalance = System.Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter Customer Status (Active/Inactive)");
+                    string CustomerStatus = Console.ReadLine();
+                    adminBLL.NewAccount(CustomerId,CustomerPin,CustomerBalance,CustomerName,CustomerStatus,CustomerAccountType);
                     break;
                 case 2:
                     //call delete existing account function
+                    Console.WriteLine("Enter Account Number to be deleted");
+                    string AccId = Console.ReadLine();
+                    adminBLL.DeleteAccount(AccId);
                     break;
                 case 3:
                     //call update account information function

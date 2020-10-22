@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATM_view;
+using System;
 
 namespace ATM_system__EAD_
 {
@@ -6,7 +7,9 @@ namespace ATM_system__EAD_
     {
         static void Main(string[] args)
         {
-            
+            Admin_View adV = new Admin_View();
+            adV.Admin_menu();
+
         }
     }
 }

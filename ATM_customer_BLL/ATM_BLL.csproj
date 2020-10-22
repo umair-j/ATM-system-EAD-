@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ATM_customer_BO\ATM_BO.csproj" />
+    <ProjectReference Include="..\ATM_customer_DAL\ATM_DAL.csproj" />
   </ItemGroup>
 
 </Project>
