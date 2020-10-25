@@ -9,14 +9,15 @@ namespace ATM_view
 {
     public class Admin_View
     {
-        public int option = default;
+        public bool Exited = false;
+
         public Customer_BO C_bo = new Customer_BO();
-        public Admin_BLL adminBLL = new Admin_BLL();
+       
         public void Admin_menu()
         {
-
-            Console.WriteLine("------WELCOME TO ADMIN VIEW------");
-            Console.WriteLine("-----PLEASE CHOOSE AN OPTION-----\n" +
+                int option = default;
+                 Console.WriteLine("------WELCOME TO ADMIN VIEW------");
+                 Console.WriteLine("-----PLEASE CHOOSE AN OPTION-----\n" +
                 "1----CREATE NEW ACCOUNT\n" +
                 "2----DELETE EXISTING ACCOUNT\n" +
                 "3----UPDATE ACCOUNT INFORMATION\n" +
@@ -24,8 +25,10 @@ namespace ATM_view
                 "5----VIEW REPORTS\n" +
                 "6----EXIT");
                 option = System.Convert.ToInt32(Console.ReadLine());
+             Admin_BLL adminBLL = new Admin_BLL();
             switch (option)
             {
+               
                 case 1:
                     //call new account function
                     Console.WriteLine("Enter Login ID");
@@ -44,21 +47,26 @@ namespace ATM_view
                     break;
                 case 2:
                     //call delete existing account function
-                    Console.WriteLine("Enter Account Number to be deleted");
-                    string AccId = Console.ReadLine();
-                    adminBLL.DeleteAccount(AccId);
+                    Console.WriteLine("Enter name to be deleted");
+                    string name = Console.ReadLine();
+                    adminBLL.DeleteAccount(name);
                     break;
                 case 3:
                     //call update account information function
                     break;
                 case 4:
                     //call search account function
+                    Console.WriteLine("Enter the name of person you wish to search ");
+                    string Customer_name = Console.ReadLine();
+                    adminBLL.Search(Customer_name);
                     break;
                 case 5:
                     //call view reports function
                     break;
                 case 6:
                     //call exit function
+                    Exited = true;
+                   
                     break;
 
                 default:
