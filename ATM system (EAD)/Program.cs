@@ -8,9 +8,11 @@ namespace ATM_system__EAD_
         static void Main(string[] args)
         {
 
-
+            Admin_View adV = new Admin_View();
             Customer_View csV = new Customer_View();
-            csV.MainMenu();
+
+            //csV.MainMenu();
+            adV.Admin_menu();
             /*
              * Admin_View adV = new Admin_View();
             while (adV.Exited == false)

@@ -17,33 +17,27 @@ namespace ATM_view
         {
                 int option = default;
                  Console.WriteLine("------WELCOME TO ADMIN VIEW------");
-                 Console.WriteLine("-----PLEASE CHOOSE AN OPTION-----\n" +
+                 Console.WriteLine(
                 "1----CREATE NEW ACCOUNT\n" +
                 "2----DELETE EXISTING ACCOUNT\n" +
                 "3----UPDATE ACCOUNT INFORMATION\n" +
                 "4----SEARCH FOR ACCOUNT ACCOUNT\n" +
                 "5----VIEW REPORTS\n" +
                 "6----EXIT");
-                option = System.Convert.ToInt32(Console.ReadLine());
-             
+                try
+                {
+                    option = System.Convert.ToInt32(Console.ReadLine());
+                }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             switch (option)
             {
                
                 case 1:
                     //call new account function
-                    Console.WriteLine("Enter Login ID");
-                    string CustomerId = Console.ReadLine();
-                    Console.WriteLine("Assign a pin to " + CustomerId);
-                    int CustomerPin = System.Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter Holder's name");
-                    string CustomerName = Console.ReadLine();
-                    Console.WriteLine("Enter Account Type (savings/current)");
-                    string CustomerAccountType = Console.ReadLine();
-                    Console.WriteLine("Enter Balance");
-                    int CustomerBalance = System.Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter Customer Status (Active/Inactive)");
-                    string CustomerStatus = Console.ReadLine();
-                    adminBLL.NewAccount(CustomerId,CustomerPin,CustomerBalance,CustomerName,CustomerStatus,CustomerAccountType);
+                    bool b = NewAccount();
                     break;
                 case 2:
                     //call delete existing account function
@@ -77,7 +71,67 @@ namespace ATM_view
             }
 
         }
-        
+        public bool NewAccount()
+        {
+            bool created = false;
+            int accountNo = default;
+            Console.Write("Login : ");
+            string CustomerId = Console.ReadLine();
+            Console.Write("Pin Code : ");
+            try
+            {
+                int CustomerPin = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                created = false;
+                return created;
+            }
+            Console.Write("Holder's name : ");
+            string CustomerName = Console.ReadLine();
+            Console.Write("Type (savings/current) : ");
+            string Type = Console.ReadLine();
+            Console.WriteLine(Type);
+            if (!(Type.Equals("savings")) && !(Type.Equals("current")))
+            {
+                Console.WriteLine("Invalid type entered!");
+                created = false;
+                return created;
+            }
+            else
+            {
+                Console.Write("Starting Balance : ");
+                try
+                {
+                    int CustomerBalance = System.Convert.ToInt32(Console.ReadLine());
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    created = false;
+                    return created;
+                }
+                Console.WriteLine("Status (active/inactive) : ");
+                string Status = Console.ReadLine();
+                if(!(Status.Equals("active")) && !(Type.Equals("inactive")))
+                {
+                    Console.WriteLine("Invalid Status entered!");
+                    created = false;
+                    return created;
+                }
+                else
+                {
+                    //create new account
+                    Console.WriteLine($"Account Successfully Created - the account number assigned is: {accountNo} ");
+                   
+                }
+               
+                //adminBLL.NewAccount(CustomerId, CustomerPin, CustomerBalance, CustomerName, CustomerStatus, CustomerAccountType);
+            }
+            return created;
+        }
+
 
     }
 }
