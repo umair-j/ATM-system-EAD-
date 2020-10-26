@@ -1,6 +1,6 @@
 ﻿using ATM_BLL;
 using ATM_BO;
-
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,18 +41,34 @@ namespace ATM_view
                     break;
                 case 2:
                     //call delete existing account function
-                    Console.WriteLine("Enter name to be deleted");
-                    string name = Console.ReadLine();
-                    adminBLL.DeleteAccount(name);
+                    Console.Write("Enter the account number to which you want to delete : ");
+                    try
+                    {
+                        int accountNo = System.Convert.ToInt32(Console.ReadLine());
+                        DeleteAccount(accountNo);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                        
                     break;
                 case 3:
                     //call update account information function
+                    Console.Write("Enter the account number : ");
+                    try
+                    {
+                        int accountNo = System.Convert.ToInt32(Console.ReadLine());
+                        Update(accountNo);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                     break;
                 case 4:
                     //call search account function
-                    Console.WriteLine("Enter the name of person you wish to search ");
-                    string Customer_name = Console.ReadLine();
-                    adminBLL.Search(Customer_name);
+                    Search();
                     break;
                 case 5:
                     //call view reports function
@@ -70,6 +86,67 @@ namespace ATM_view
                     break;
             }
 
+        }
+        public void Search()
+        {
+            Console.WriteLine("SEARCH MENU\n");
+            Console.Write("Account ID : ");
+            string accountIdInput = Console.ReadLine();
+            Console.Write("User ID : ");
+            string userIdInput = Console.ReadLine();
+            Console.Write("Holder's Name : ");
+            string nameInput = Console.ReadLine();
+            Console.Write("Type (savings/current) : ");
+            string typeInput = Console.ReadLine();
+            Console.Write("Balance : ");
+            string balanceInput = Console.ReadLine();
+            Console.Write("Status : ");
+            string statusInput = Console.ReadLine();
+
+            Console.WriteLine("\n==== SEARCH RESULTS ====\n");
+            //display users' data in required format
+        }
+        public void Update(int accountNo)
+        {
+            string type = default;
+            string holder = default;
+            string balance = default;
+            string status = default;
+            Console.WriteLine($"Account # {accountNo}");
+            Console.WriteLine($"Type : {type}");
+            Console.WriteLine($"Holder : {holder}");
+            Console.WriteLine($"Balance : {balance}");
+            Console.WriteLine($"Status : {status}");
+
+            Console.WriteLine("Please enter in the fields you wish to update (leave blank otherwise) : ");
+
+            Console.Write("Login : ");
+            string loginInput = Console.ReadLine();
+            Console.Write("Pin code : ");
+            string pinInput = Console.ReadLine();
+            Console.Write("Holder's name : ");
+            string nameInput = Console.ReadLine();
+            Console.Write("Status : ");
+            string statusInput = Console.ReadLine();
+
+            //update in business logic layer
+
+            //if successful
+            Console.WriteLine("Your account has been successfully updated");
+        }
+        public void DeleteAccount(int AccountNo)
+        {
+            string name = default;
+            Console.Write($"You wish to delete the account held by Mr {name}; If this information is correct please re-enter the account number : ");
+            int input = System.Convert.ToInt32(Console.ReadLine());
+            if(AccountNo == input){
+                //delete function called in business logic layer
+                Console.WriteLine("Account Deleted Successfully");
+            }
+            else
+            {
+                Console.WriteLine("Deletion canceled");
+            }
         }
         public bool NewAccount()
         {
