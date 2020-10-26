@@ -45,60 +45,15 @@ namespace ATM_view
                     break;
                 case 2:
                     //Transfer function call
-                    int accountNo = default;
-                    int accountNoRe = default;
-                    int amount = default;
-                    string name = default;
-                    bool transfered = false;
-                    Console.Write("Enter amount in multiples of 500 : ");
-                    try
-                    {
-                        amount = System.Convert.ToInt32(Console.ReadLine());
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                        if(amount % 500 != 0)
-                    {
-                        Console.WriteLine("Please make sure to enter the amount in MULTIPLES OF 500!");
-                    }
-                    else
-                    {
-                        Console.Write("Enter the account number to which you want to transfer : ");
-                        try
-                        {
-                            accountNo = System.Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        Console.Write($"You wish to deposit Rs {amount} in account held by Mr. {name} ; If this information is correct then please re-enter the account number: ");
-                        try
-                        {
-                            accountNoRe = System.Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        if (accountNo == accountNoRe)
-                        {
-                            //call transaction function
-                            transfered = true;
-                        }
-                        if (transfered)
-                        {
-                            Console.WriteLine("Transaction confirmed");
-                        }
-                    }
+                    Transfer();
                     break;
                 case 3:
                     //Deposit function call
+                    Deposit();
                     break;
                 case 4:
                     //Display function call
+                    Display();
                     break;
                 case 5:
                     //Exit function call
@@ -106,6 +61,125 @@ namespace ATM_view
                 default:
                     Console.WriteLine("Please enter a valid option");
                     break;
+            }
+        }
+        public void Display()
+        {
+            int accountNo = default;
+            int balance = default;
+            Console.WriteLine($"Account number : {accountNo}");
+            Console.WriteLine($"Balance : {balance}");
+        }
+        public void Deposit()
+        {
+            int amount = default;
+            Console.Write("Enter the cash amount to deposit : ");
+            try
+            {
+                amount = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if(amount < 1)
+            {
+                Console.WriteLine("Enter a valid amount");
+            }
+            else
+            {
+                //deposit
+                Console.WriteLine("Cash deposited sucessfully");
+                Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                string confirm = Console.ReadLine();
+                if (confirm == "Y")
+                {
+
+
+                    //Display account number
+                    //Display Deposited amount:amount
+                    //Display balance
+
+                }
+                else if (confirm == "N")
+                {
+                    Console.WriteLine("Receipt will not be printed!");
+                }
+                else
+                {
+                    Console.WriteLine("No valid option chosen");
+                }
+            }
+
+        }
+        public void Transfer()
+        {
+            int accountNo = default;
+            int accountNoRe = default;
+            int amount = default;
+            string name = default;
+            bool transferred = false;
+            Console.Write("Enter amount in multiples of 500 : ");
+            try
+            {
+                amount = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (amount % 500 != 0)
+            {
+                Console.WriteLine("Please make sure to enter the amount in MULTIPLES OF 500!");
+            }
+            else
+            {
+                Console.Write("Enter the account number to which you want to transfer : ");
+                try
+                {
+                    accountNo = System.Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                Console.Write($"You wish to deposit Rs {amount} in account held by Mr. {name} ; If this information is correct then please re-enter the account number: ");
+                try
+                {
+                    accountNoRe = System.Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                if (accountNo == accountNoRe)
+                {
+                    //call transaction function
+                    transferred = true;
+                }
+                if (transferred)
+                {
+                    Console.WriteLine("Transaction confirmed");
+                }
+                Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                string confirm = Console.ReadLine();
+                if (confirm == "Y")
+                {
+
+
+                    //Display account number
+                    //Display Transferred:amount
+                    //Display balance
+
+                }
+                else if (confirm == "N")
+                {
+                    Console.WriteLine("Receipt will not be printed!");
+                }
+                else
+                {
+                    Console.WriteLine("No valid option chosen");
+                }
             }
         }
         public void FastCash()
