@@ -12,7 +12,7 @@ namespace ATM_view
         public bool Exited = false;
 
         public Customer_BO C_bo = new Customer_BO();
-       
+        Admin_BLL adminBLL = new Admin_BLL();
         public void Admin_menu()
         {
                 int option = default;
@@ -25,7 +25,7 @@ namespace ATM_view
                 "5----VIEW REPORTS\n" +
                 "6----EXIT");
                 option = System.Convert.ToInt32(Console.ReadLine());
-             Admin_BLL adminBLL = new Admin_BLL();
+             
             switch (option)
             {
                

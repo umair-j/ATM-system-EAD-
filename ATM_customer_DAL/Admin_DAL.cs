@@ -45,14 +45,53 @@ namespace ATM_DAL
             }
             else {
                 string JsonOutput = JsonSerializer.Serialize(bo);
-                Save(JsonOutput, "CustomerData.txt",false);
+                Save(JsonOutput, "CustomerData.txt",true);
             }
             //Console.WriteLine(bo);
            
 
 
         }
+        public bool Delete(string name)
+        {
+            Customer_BO cbo = new Customer_BO();
+            bool found = false;
+            string PathName = Path.Combine(Environment.CurrentDirectory, "CustomerData.txt");
+            StreamReader sr = new StreamReader(PathName);
+            List<string> records = new List<string>();
 
+            string PathNameNew = Path.Combine(Environment.CurrentDirectory, "CustomerDataNew.txt");
+            StreamWriter sw = new StreamWriter(PathNameNew,append:true);
+            string JsonOutputNew;
+
+            records = File.ReadAllLines(PathName).ToList();
+            foreach(string record in records)
+            {
+
+                
+                 cbo = JsonSerializer.Deserialize<Customer_BO>(record);
+
+                 if (cbo.Name == name)
+                 {
+                     found = true;
+                    Console.WriteLine("found");
+                 }
+                else
+                {
+                    JsonOutputNew = JsonSerializer.Serialize<Customer_BO>(cbo);
+                    
+                    
+                    sw.WriteLine(JsonOutputNew);
+                    sw.Close();
+                }
+                
+                 
+                
+                Console.WriteLine(record + "\n");
+            }
+            
+            return found;
+        }
         public Customer_BO SearchRecord(string name)
         {
             bool found = false;
@@ -79,37 +118,7 @@ namespace ATM_DAL
             }
             
             return cbo;
-            /*
-             bool found = false;
-             string PathName = Path.Combine(Environment.CurrentDirectory, "CustomerData.txt");
-             StreamReader sr = new StreamReader(PathName);
-             //ArrayList ar = new ArrayList();
-             
-             while (sr.ReadLine() != null)
-             {
-                 string JSonStr = sr.ReadLine();
-
-
-                 cbo = JsonSerializer.Deserialize<Customer_BO>(JSonStr);
-                 if (cbo.Name.Equals(name))
-                 {
-
-                     found = true;
-                     break;
-
-                 }
-                 //ar.Add(bo);
-             }
-             if (found)
-             {
-                 return cbo;
-             }
-             else
-             {
-                 return null;
-             }
-
-            */
+            
         }
     }
 }

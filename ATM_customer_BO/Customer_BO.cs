@@ -7,6 +7,7 @@ namespace ATM_BO
     //customer business object
     public class Customer_BO
     {
+        public int AccountNumber { get; set; }
         //getter and setter for Login
         public string Login { get; set; }
         //getter and setter for Pin

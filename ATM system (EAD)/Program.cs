@@ -7,15 +7,19 @@ namespace ATM_system__EAD_
     {
         static void Main(string[] args)
         {
-            
-            Admin_View adV = new Admin_View();
+
+
+            Customer_View csV = new Customer_View();
+            csV.MainMenu();
+            /*
+             * Admin_View adV = new Admin_View();
             while (adV.Exited == false)
             {
                 
                 adV.Admin_menu();
                 //Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             }
-
+            */
         }
     }
 }

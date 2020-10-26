@@ -9,13 +9,13 @@ namespace ATM_BLL
 {
     public class Admin_BLL
     {
-         
 
+        public static int TotalAccounts;
         public ArrayList People = new ArrayList();
         public Customer_BO C_bo = new Customer_BO();
         public void NewAccount(string CustomerId, int CustomerPin, int CustomerBalance, string CustomerName, string CustomerStatus, string CustomerAccountType)
         {
-
+            C_bo.AccountNumber = TotalAccounts + 1;
             C_bo.Login = CustomerId;
             C_bo.Pin = CustomerPin;
             C_bo.Balance = CustomerBalance;
@@ -24,6 +24,7 @@ namespace ATM_BLL
             C_bo.AccountType = CustomerAccountType;
             Admin_DAL adminDal = new Admin_DAL();
             adminDal.SaveCustomer(C_bo);
+            TotalAccounts = TotalAccounts + 1;
         }
         public void Display(string filename)
         {
@@ -34,7 +35,15 @@ namespace ATM_BLL
         {
             Admin_DAL adminDal = new Admin_DAL();
 
-            adminDal.Search(name, "CustomerData.txt");
+
+            bool found = adminDal.Delete(name);
+            if (found!=true)
+            {
+                Console.WriteLine("Record not found");
+            }
+
+            
+            
 
         }
 
