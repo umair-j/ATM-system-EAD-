@@ -23,16 +23,37 @@ namespace ATM_BLL
             }
             else
             {
-                if (record.LastOrDefault().AccountNumber == temp)
-                {
-                    temp++;
-                }
+                
+                    temp = record.Last().AccountNumber + 1;
+                
                 
             }
             bo.AccountNumber = temp;
             record.Add(bo);
             Console.WriteLine(bo.Name + bo.Login + bo.Balance + bo.AccountNumber);
             return temp;
+        }
+        public bool DeleteAccount(int AccountNo)
+        {
+            bool deleted = false;
+            foreach(Customer_BO bo in record.ToList())
+            {
+                if(bo.AccountNumber == AccountNo)
+                {
+                    
+                    try
+                    {
+                        record.Remove(bo);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Error occured " + ex.Message);
+                    }
+                    Console.WriteLine($"deleted {bo.Name}");
+                    deleted = true;
+                }
+            }
+            return deleted;
         }
 
 

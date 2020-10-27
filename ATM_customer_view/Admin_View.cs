@@ -235,17 +235,28 @@ namespace ATM_view
         }
         public void DeleteAccount(int AccountNo)
         {
+            bool deleted = default;
             string name = default;
             Console.Write($"You wish to delete the account held by Mr {name}; If this information is correct please re-enter the account number : ");
             int input = System.Convert.ToInt32(Console.ReadLine());
-            if(AccountNo == input){
+            if (AccountNo == input)
+            {
                 //delete function called in business logic layer
-                Console.WriteLine("Account Deleted Successfully");
+                deleted = adminBLL.DeleteAccount(AccountNo);
+                if (deleted)
+                {
+                    Console.WriteLine("Account Deleted Successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Account not found");
+                }
             }
             else
             {
                 Console.WriteLine("Deletion canceled");
             }
+            Admin_menu();
         }
         public bool NewAccount()
         {
@@ -314,6 +325,7 @@ namespace ATM_view
                
                 
             }
+            Admin_menu();
             return created;
         }
 
