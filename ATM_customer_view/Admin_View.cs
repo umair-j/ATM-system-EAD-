@@ -72,6 +72,7 @@ namespace ATM_view
                     break;
                 case 5:
                     //call view reports function
+                    ViewReports();
                     break;
                 case 6:
                     //call exit function
@@ -85,6 +86,81 @@ namespace ATM_view
                     option = 0;
                     break;
             }
+
+        }
+        public void ViewReports()
+        {
+            int ch = default;
+            int reportType = default;
+            Console.WriteLine("Enter the type of report");
+            Console.WriteLine("1---Accounts by Amount");
+            Console.WriteLine("2---Accounts by Date");
+            try
+            {
+                ch = System.Convert.ToInt32(Console.ReadLine());
+                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if(ch < 1 || ch > 2)
+            {
+                Console.WriteLine("Please enter a valid option (1 or 2) ");
+            }
+            else
+            {
+                if(ch == 1)
+                {
+                    ReportByAmount();
+                }
+                else if(ch == 2)
+                {
+                    ReportByDate();
+                }
+            }
+        }
+        public void ReportByAmount()
+        {
+            
+            int min = default;
+            int max = default;
+            Console.Write("Enter the maximum amount : ");
+            try
+            {
+                max = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.Write("Enter the minimum amount : ");
+            try
+            {
+                min = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //apply calculations to find data
+            Console.WriteLine("\n==== SEARCH RESULTS ====\n");
+            //display users' data in required format
+            Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
+
+        }
+        public void ReportByDate()
+        {
+            string startDate = default;
+            string endDate = default;
+            Console.Write("Enter the starting date : ");
+            startDate = Console.ReadLine();
+            Console.Write("Enter the ending date : ");
+            endDate = Console.ReadLine();
+            //apply calculations to find data
+            Console.WriteLine("\n==== SEARCH RESULTS ====\n");
+            //display users' data in required format
+            Console.WriteLine("Transaction Type \t User ID \t Holder's Name \t Amount \t Date\n");
 
         }
         public void Search()
@@ -105,6 +181,8 @@ namespace ATM_view
 
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
+            Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
+
         }
         public void Update(int accountNo)
         {
