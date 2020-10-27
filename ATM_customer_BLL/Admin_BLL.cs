@@ -1,15 +1,53 @@
-﻿using ATM_BO;
-using ATM_DAL;
+﻿
+using ATM_BO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ATM_BLL
 {
     public class Admin_BLL
     {
+        //list will contain all customer data while application is running
+        public static List<Customer_BO> record = new List<Customer_BO>();
 
+        public int createNewAccount(string login, int pin, string name, string type, int balance, string status)
+        {
+            Customer_BO bo = new Customer_BO { Login = login, Pin = pin, Name = name, AccountType = type, Balance = balance, AccountStatus = status };
+            int temp = record.Count;
+            if (record.Count == 0)
+            {
+                temp = 1;
+            }
+            else
+            {
+                if (record.LastOrDefault().AccountNumber == temp)
+                {
+                    temp++;
+                }
+                
+            }
+            bo.AccountNumber = temp;
+            record.Add(bo);
+            Console.WriteLine(bo.Name + bo.Login + bo.Balance + bo.AccountNumber);
+            return temp;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         public static int TotalAccounts;
         public ArrayList People = new ArrayList();
         public Customer_BO C_bo = new Customer_BO();
@@ -70,6 +108,6 @@ namespace ATM_BLL
            
             
             //application.exit();
-        }
+        }*/
     }
 }

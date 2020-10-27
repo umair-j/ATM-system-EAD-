@@ -1,6 +1,5 @@
 ﻿using ATM_BLL;
 using ATM_BO;
-using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -91,7 +90,7 @@ namespace ATM_view
         public void ViewReports()
         {
             int ch = default;
-            int reportType = default;
+            
             Console.WriteLine("Enter the type of report");
             Console.WriteLine("1---Accounts by Amount");
             Console.WriteLine("2---Accounts by Date");
@@ -133,6 +132,8 @@ namespace ATM_view
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                //return to break out of function in case of error
+                return;
             }
             Console.Write("Enter the minimum amount : ");
             try
@@ -142,6 +143,8 @@ namespace ATM_view
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                //return to break out of function in case of error
+                return;
             }
             //apply calculations to find data
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
@@ -154,9 +157,27 @@ namespace ATM_view
             string startDate = default;
             string endDate = default;
             Console.Write("Enter the starting date : ");
-            startDate = Console.ReadLine();
+            try
+            {
+                startDate = Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //return to break out of function in case of error
+                return;
+            }
             Console.Write("Enter the ending date : ");
-            endDate = Console.ReadLine();
+            try
+            {
+                endDate = Console.ReadLine();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //return to break out of function in case of error
+                return;
+            }
             //apply calculations to find data
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
@@ -228,14 +249,21 @@ namespace ATM_view
         }
         public bool NewAccount()
         {
+            string CustomerId = default;
+            int CustomerPin = default;
+            string CustomerName = default;
+            string Type = default;
+            string Status = default;
+            int CustomerBalance = default;
+
             bool created = false;
             int accountNo = default;
             Console.Write("Login : ");
-            string CustomerId = Console.ReadLine();
+            CustomerId = Console.ReadLine();
             Console.Write("Pin Code : ");
             try
             {
-                int CustomerPin = System.Convert.ToInt32(Console.ReadLine());
+                CustomerPin = System.Convert.ToInt32(Console.ReadLine());
             }
             catch (Exception ex)
             {
@@ -244,10 +272,10 @@ namespace ATM_view
                 return created;
             }
             Console.Write("Holder's name : ");
-            string CustomerName = Console.ReadLine();
+            CustomerName = Console.ReadLine();
             Console.Write("Type (savings/current) : ");
-            string Type = Console.ReadLine();
-            Console.WriteLine(Type);
+            Type = Console.ReadLine();
+            
             if (!(Type.Equals("savings")) && !(Type.Equals("current")))
             {
                 Console.WriteLine("Invalid type entered!");
@@ -259,7 +287,7 @@ namespace ATM_view
                 Console.Write("Starting Balance : ");
                 try
                 {
-                    int CustomerBalance = System.Convert.ToInt32(Console.ReadLine());
+                    CustomerBalance = System.Convert.ToInt32(Console.ReadLine());
                 }
                 catch(Exception ex)
                 {
@@ -268,8 +296,8 @@ namespace ATM_view
                     return created;
                 }
                 Console.WriteLine("Status (active/inactive) : ");
-                string Status = Console.ReadLine();
-                if(!(Status.Equals("active")) && !(Type.Equals("inactive")))
+                Status = Console.ReadLine();
+                if(!(Status.Equals("active")) && !(Status.Equals("inactive")))
                 {
                     Console.WriteLine("Invalid Status entered!");
                     created = false;
@@ -278,11 +306,13 @@ namespace ATM_view
                 else
                 {
                     //create new account
+                    accountNo = adminBLL.createNewAccount(CustomerId, CustomerPin, CustomerName, Type, CustomerBalance, Status);
+                    
                     Console.WriteLine($"Account Successfully Created - the account number assigned is: {accountNo} ");
                    
                 }
                
-                //adminBLL.NewAccount(CustomerId, CustomerPin, CustomerBalance, CustomerName, CustomerStatus, CustomerAccountType);
+                
             }
             return created;
         }
