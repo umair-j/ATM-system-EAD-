@@ -57,8 +57,107 @@ namespace ATM_BLL
         }
 
 
-        public void SearchAccount(string accountIdInput, string userIdInput, string nameInput, string typeInput, string balanceInput, string statusInput)
+        public void SearchAccount(string accountIdInput, string userIdInput, string nameInput, string typeInput, string balanceInput, string statusInput, List<string> arguments)
         {
+            List<Customer_BO> l1 = new List<Customer_BO>();
+            
+            List<Customer_BO> l2 = new List<Customer_BO>();
+            List<Customer_BO> l3 = new List<Customer_BO>();
+            List<Customer_BO> l4 = new List<Customer_BO>();
+            List<Customer_BO> l5 = new List<Customer_BO>();
+            List<Customer_BO> l6 = new List<Customer_BO>();
+            bool accNo = default;
+            bool Log = default;
+            bool name = default;
+            bool type = default;
+            bool bal = default;
+            bool stat = default;
+
+            for (int i = 0; i < arguments.Count; i++)
+            {
+                if (arguments[i] == "AccountNumber") accNo = true;
+                if (arguments[i] == "Login") Log = true;
+                if (arguments[i] == "Balance") bal = true;
+                if (arguments[i] == "Name") name = true;
+                if (arguments[i] == "AccountType") type = true;
+                if (arguments[i] == "AccountStatus") stat = true;
+            }
+
+
+            if (accNo)
+            {
+                foreach(Customer_BO i in record)
+                {
+                    if (System.Convert.ToInt32(accountIdInput) == i.AccountNumber) l1.Add(i);
+                }
+            }
+            else
+            {
+               l1 = new List<Customer_BO>(record);
+            }
+
+            if (Log)
+            {
+                foreach (Customer_BO i in record)
+                {
+                    if (userIdInput == i.Login) l2.Add(i);
+                }
+            }
+            else
+            {
+                l2 = new List<Customer_BO>(record);
+            }
+            if (name)
+            {
+                foreach (Customer_BO i in record)
+                {
+                    if (nameInput == i.Name) l3.Add(i);
+                }
+            }
+            else
+            {
+                l3 = new List<Customer_BO>(record);
+            }
+            if (type)
+            {
+                foreach (Customer_BO i in record)
+                {
+                    if (typeInput == i.AccountType) l4.Add(i);
+                }
+            }
+            else
+            {
+                l4 = new List<Customer_BO>(record);
+            }
+            if (stat)
+            {
+                foreach (Customer_BO i in record)
+                {
+                    if (statusInput == i.AccountStatus) l5.Add(i);
+                }
+            }
+            else
+            {
+                l5 = new List<Customer_BO>(record);
+            }
+            if (bal)
+            {
+                foreach (Customer_BO i in record)
+                {
+                    if (System.Convert.ToInt32(balanceInput) == i.Balance) l6.Add(i);
+                }
+            }
+            else
+            {
+                l6 = new List<Customer_BO>(record);
+            }
+            List<Customer_BO> finalList = new List<Customer_BO>();
+            finalList = l1.Intersect(l2).Intersect(l3).Intersect(l4).Intersect(l5).Intersect(l6).ToList();
+
+            foreach (Customer_BO b in finalList)
+            {
+                Console.WriteLine("\n\n\n" + b.Name + " has money : " + b.Balance );
+            }
 
 
             /*
@@ -135,8 +234,7 @@ namespace ATM_BLL
 
 
 
-
-
+            /*
             int accountIdInput1 = default;
             int balanceInput1 = default;
             if (accountIdInput == "")
@@ -1532,7 +1630,9 @@ namespace ATM_BLL
                     }
                 }
             }
+             */
         }
+
 
     }
 }

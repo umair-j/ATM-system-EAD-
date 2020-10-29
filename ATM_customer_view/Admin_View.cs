@@ -188,28 +188,47 @@ namespace ATM_view
         {
             //default value
             string balanceInput = default;
+            string accountIdInput = default;
+            string userIdInput = default;
+            string nameInput = default;
+            string typeInput = default;
+            string statusInput = default;
+
+            List<string> arguments = new List<string>();
+
             Console.WriteLine("SEARCH MENU\n");
             Console.Write("Account ID : ");
-            string accountIdInput = Console.ReadLine();
+            accountIdInput = Console.ReadLine();
 
             Console.Write("User ID : ");
-            string userIdInput = Console.ReadLine();
+            userIdInput = Console.ReadLine();
             
             Console.Write("Holder's Name : ");
-            string nameInput = Console.ReadLine();
+            nameInput = Console.ReadLine();
             
             Console.Write("Type (savings/current) : ");
-            string typeInput = Console.ReadLine();
+            typeInput = Console.ReadLine();
             
             Console.Write("Balance : ");
             balanceInput = Console.ReadLine();
             
             
             Console.Write("Status : ");
-            string statusInput = Console.ReadLine();
-            
+            statusInput = Console.ReadLine();
 
-            adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput);
+            if (accountIdInput != "") arguments.Add("AccountNumber");
+
+            if (userIdInput != "") arguments.Add("Login");
+
+            if (nameInput != "") arguments.Add("Name");
+
+            if (typeInput != "") arguments.Add("AccountType");
+
+            if (balanceInput != "") arguments.Add("Balance");
+
+            if (statusInput != "") arguments.Add("AccountStatus");
+
+            adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput,arguments);
 
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
