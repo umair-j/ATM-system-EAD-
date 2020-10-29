@@ -186,24 +186,35 @@ namespace ATM_view
         }
         public void Search()
         {
+            //default value
+            string balanceInput = default;
             Console.WriteLine("SEARCH MENU\n");
             Console.Write("Account ID : ");
             string accountIdInput = Console.ReadLine();
+
             Console.Write("User ID : ");
             string userIdInput = Console.ReadLine();
+            
             Console.Write("Holder's Name : ");
             string nameInput = Console.ReadLine();
+            
             Console.Write("Type (savings/current) : ");
             string typeInput = Console.ReadLine();
+            
             Console.Write("Balance : ");
-            string balanceInput = Console.ReadLine();
+            balanceInput = Console.ReadLine();
+            
+            
             Console.Write("Status : ");
             string statusInput = Console.ReadLine();
+            
+
+            adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput);
 
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
             Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
-
+            Admin_menu();
         }
         public void Update(int accountNo)
         {

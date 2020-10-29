@@ -23,10 +23,10 @@ namespace ATM_BLL
             }
             else
             {
-                
-                    temp = record.Last().AccountNumber + 1;
-                
-                
+
+                temp = record.Last().AccountNumber + 1;
+
+
             }
             bo.AccountNumber = temp;
             record.Add(bo);
@@ -36,16 +36,16 @@ namespace ATM_BLL
         public bool DeleteAccount(int AccountNo)
         {
             bool deleted = false;
-            foreach(Customer_BO bo in record.ToList())
+            foreach (Customer_BO bo in record.ToList())
             {
-                if(bo.AccountNumber == AccountNo)
+                if (bo.AccountNumber == AccountNo)
                 {
-                    
+
                     try
                     {
                         record.Remove(bo);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine("Error occured " + ex.Message);
                     }
@@ -55,6 +55,1489 @@ namespace ATM_BLL
             }
             return deleted;
         }
+
+
+        public void SearchAccount(string accountIdInput, string userIdInput, string nameInput, string typeInput, string balanceInput, string statusInput)
+        {
+
+
+            /*
+
+            int accountIdInput1 = default;
+            int balanceInput1 = default;
+            if (accountIdInput == "")
+            {
+                accountIdInput1 = -1;
+            }
+            else
+            {
+                accountIdInput1 = System.Convert.ToInt32(accountIdInput);
+            }
+            if (balanceInput == "")
+            {
+                balanceInput1 = -1;
+            }
+            else
+            {
+                balanceInput1 = System.Convert.ToInt32(balanceInput);
+            }
+
+            if (accountIdInput1 != -1)
+            {
+                if(userIdInput == "")
+                {
+
+                    if(nameInput == "")
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+
+
+            */
+
+
+
+
+
+
+
+
+            int accountIdInput1 = default;
+            int balanceInput1 = default;
+            if (accountIdInput == "")
+            {
+                accountIdInput1 = -1;
+            }
+            else
+            {
+                accountIdInput1 = System.Convert.ToInt32(accountIdInput);
+            }
+            if (balanceInput == "")
+            {
+                balanceInput1 = -1;
+            }
+            else
+            {
+                balanceInput1 = System.Convert.ToInt32(balanceInput);
+            }
+            if (accountIdInput1 == -1) {
+                if (userIdInput == "")
+                {
+                    if (nameInput == "")
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountType == typeInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (nameInput == "")
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.Login == userIdInput);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (userIdInput == "")
+                {
+                    if (nameInput == "")
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountType == typeInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("not found");
+                                    };
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (nameInput == "")
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (typeInput == "")
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("not found");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (balanceInput1 == -1)
+                            {
+                                if (statusInput == "")
+                                {
+                                    Console.WriteLine("No record found!");
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.AccountType == typeInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (statusInput == "")
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var item = record.FirstOrDefault(bo => bo.AccountStatus == statusInput && bo.Balance == balanceInput1 && bo.AccountType == typeInput && bo.Name == nameInput && bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                    if (item != null)
+                                    {
+                                        Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                    }
+                                    else
+                                    {
+                                        item = record.FirstOrDefault(bo => bo.Login == userIdInput && bo.AccountNumber == accountIdInput1);
+                                        if (item != null)
+                                        {
+                                            Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                        }
+                                        else
+                                        {
+                                            item = record.FirstOrDefault(bo => bo.AccountNumber == accountIdInput1);
+                                            if (item != null)
+                                            {
+                                                Console.WriteLine($"name : {item.Name} , login : {item.Login} , balance : {item.Balance}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("not found");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+    
 
 
 
@@ -130,5 +1613,3 @@ namespace ATM_BLL
             
             //application.exit();
         }*/
-    }
-}
