@@ -2,13 +2,14 @@
 using ATM_BO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ATM_view
 {
     public class Admin_View
     {
-        public bool Exited = false;
+        
 
         public Customer_BO C_bo = new Customer_BO();
         Admin_BLL adminBLL = new Admin_BLL();
@@ -30,62 +31,62 @@ namespace ATM_view
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Admin_menu();
             }
-            switch (option)
+
+            if (option < 1 || option > 6)
             {
-               
-                case 1:
-                    //call new account function
-                    bool b = NewAccount();
-                    break;
-                case 2:
-                    //call delete existing account function
-                    Console.Write("Enter the account number to which you want to delete : ");
-                    try
-                    {
-                        int accountNo = System.Convert.ToInt32(Console.ReadLine());
-                        DeleteAccount(accountNo);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                        
-                    break;
-                case 3:
-                    //call update account information function
-                    Console.Write("Enter the account number : ");
-                    try
-                    {
-                        int accountNo = System.Convert.ToInt32(Console.ReadLine());
-                        Update(accountNo);
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    break;
-                case 4:
-                    //call search account function
-                    Search();
-                    break;
-                case 5:
-                    //call view reports function
-                    ViewReports();
-                    break;
-                case 6:
-                    //call exit function
-                    Exited = true;
-                   
-                    break;
-
-                default:
-                    //call update account information function
-                    Console.WriteLine("PLEASE ENTER A VALID OPTION (1-6)");
-                    option = 0;
-                    break;
+                //call update account information function
+                Console.WriteLine("PLEASE ENTER A VALID OPTION (1-6)");
+                option = 0;
             }
+            else
+            {
+                switch (option)
+                {
+                    case 1:
+                        //call new account function
+                        bool b = NewAccount();
+                        break;
+                    case 2:
+                        //call delete existing account function
+                        Console.Write("Enter the account number to which you want to delete : ");
+                        try
+                        {
+                            int accountNo = System.Convert.ToInt32(Console.ReadLine());
+                            DeleteAccount(accountNo);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Admin_menu();
+                        }
 
+                        break;
+                    case 3:
+                        //call update account information function
+                        Console.Write("Enter the account number : ");
+                        
+                            string accountNum = Console.ReadLine();
+                            Update(accountNum);
+                        
+                        break;
+                    case 4:
+                        //call search account function
+                        Search();
+                        break;
+                    case 5:
+                        //call view reports function
+                        ViewReports();
+                        break;
+                    case 6:
+                        //call exit function
+                        System.Environment.Exit(1);
+                        break;
+
+                }
+            }
+            Admin_menu();
         }
         public void ViewReports()
         {
@@ -228,24 +229,37 @@ namespace ATM_view
 
             if (statusInput != "") arguments.Add("AccountStatus");
 
-            adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput,arguments);
+            List<Customer_BO> list = adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput,arguments);
 
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
-            Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
+            Console.WriteLine("Account ID \t\t User ID \t\t Holder's Name \t\t Type \t\tBalance \t\tStatus\n");
+            foreach (Customer_BO b in list)
+            {
+                Console.WriteLine($"{b.AccountNumber}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.AccountType}\t\t\t{b.Balance}\t\t\t{b.AccountStatus}\n");
+            }
             Admin_menu();
         }
-        public void Update(int accountNo)
+        public void Update(string accountNum)
         {
-            string type = default;
-            string holder = default;
-            string balance = default;
-            string status = default;
-            Console.WriteLine($"Account # {accountNo}");
-            Console.WriteLine($"Type : {type}");
-            Console.WriteLine($"Holder : {holder}");
-            Console.WriteLine($"Balance : {balance}");
-            Console.WriteLine($"Status : {status}");
+            bool exists = false;
+            List<string> arguments = new List<string>();
+            arguments.Add("AccountNumber");
+            List<Customer_BO> accountFound = adminBLL.SearchAccount(accountNum, "", "", "", "", "", arguments);
+            if (accountFound.Count == 0) exists = false;
+            else
+            {
+                exists = true;
+            }
+            if (exists)
+            {
+                Customer_BO bo = accountFound.First();
+            
+            Console.WriteLine($"Account # {bo.AccountNumber}");
+            Console.WriteLine($"Type : {bo.AccountType}");
+            Console.WriteLine($"Holder : {bo.Name}");
+            Console.WriteLine($"Balance : {bo.Balance}");
+            Console.WriteLine($"Status : {bo.AccountStatus}");
 
             Console.WriteLine("Please enter in the fields you wish to update (leave blank otherwise) : ");
 
@@ -253,15 +267,21 @@ namespace ATM_view
             string loginInput = Console.ReadLine();
             Console.Write("Pin code : ");
             string pinInput = Console.ReadLine();
+                
             Console.Write("Holder's name : ");
             string nameInput = Console.ReadLine();
             Console.Write("Status : ");
             string statusInput = Console.ReadLine();
 
-            //update in business logic layer
-
+                //update in business logic layer
+                adminBLL.Update(loginInput,pinInput,nameInput,statusInput,bo.AccountNumber); 
             //if successful
             Console.WriteLine("Your account has been successfully updated");
+            }
+            else
+            {
+                Console.WriteLine("No record found");
+            }
         }
         public void DeleteAccount(int AccountNo)
         {
@@ -310,6 +330,7 @@ namespace ATM_view
             {
                 Console.WriteLine(ex.Message);
                 created = false;
+            
                 return created;
             }
             Console.Write("Holder's name : ");
