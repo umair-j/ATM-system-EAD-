@@ -13,7 +13,8 @@ namespace ATM_DAL
 {
     public class Admin_DAL : BaseDAL
     {
-        public Customer_BO bo = new Customer_BO();
+       
+        /*        public Customer_BO bo = new Customer_BO();
         public void SaveCustomer(Customer_BO bo)
         {
             string JsonOutput = JsonSerializer.Serialize(bo);
@@ -119,6 +120,8 @@ namespace ATM_DAL
             
             return cbo;
             
+
         }
+*/
     }
 }

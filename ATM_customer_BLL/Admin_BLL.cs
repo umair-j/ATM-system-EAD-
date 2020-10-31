@@ -1,5 +1,6 @@
 ﻿
 using ATM_BO;
+using ATM_DAL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,11 +9,12 @@ using System.Text;
 
 namespace ATM_BLL
 {
+    
     public class Admin_BLL
     {
         //list will contain all customer data while application is running
         public static List<Customer_BO> record = new List<Customer_BO>();
-
+        BaseDAL bDAL = new BaseDAL();
         public int createNewAccount(string login, int pin, string name, string type, int balance, string status)
         {
             Customer_BO bo = new Customer_BO { Login = login, Pin = pin, Name = name, AccountType = type, Balance = balance, AccountStatus = status };
@@ -33,6 +35,12 @@ namespace ATM_BLL
             //Console.WriteLine(bo.Name + bo.Login + bo.Balance + bo.AccountNumber);
             return temp;
         }
+
+        public void loadrecords()
+        {
+            record = bDAL.load();
+        }
+
         public bool DeleteAccount(int AccountNo)
         {
             bool deleted = false;
@@ -182,7 +190,12 @@ namespace ATM_BLL
 
             return finalList;
         }
-        
+
+        public void save()
+        {
+            bDAL.save(record);
+        }
+
         public void Update(string login, string pin, string name, string status, int accNum)
         {
             int pin1 = default;
@@ -221,7 +234,7 @@ namespace ATM_BLL
             List<Customer_BO> list = new List<Customer_BO>();
             foreach(Customer_BO bo in record)
             {
-                if(bo.Balance<=min && bo.Balance >= max)
+                if(bo.Balance>=min && bo.Balance <= max)
                 {
                     list.Add(bo);
                 }

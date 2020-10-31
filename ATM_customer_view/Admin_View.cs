@@ -1,5 +1,6 @@
 ﻿using ATM_BLL;
 using ATM_BO;
+using ATM_DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,11 @@ namespace ATM_view
 
         public Customer_BO C_bo = new Customer_BO();
         Admin_BLL adminBLL = new Admin_BLL();
+        BaseDAL bdal = new BaseDAL();
         public void Admin_menu()
         {
+
+                adminBLL.loadrecords();
                 int option = default;
                  Console.WriteLine("------WELCOME TO ADMIN VIEW------");
                  Console.WriteLine(
@@ -53,7 +57,7 @@ namespace ATM_view
                         Console.Write("Enter the account number to which you want to delete : ");
                         try
                         {
-                            int accountNo = System.Convert.ToInt32(Console.ReadLine());
+                            string accountNo = Console.ReadLine();
                             DeleteAccount(accountNo);
                         }
                         catch (Exception ex)
@@ -81,6 +85,7 @@ namespace ATM_view
                         break;
                     case 6:
                         //call exit function
+                        adminBLL.save();
                         System.Environment.Exit(1);
                         break;
 
@@ -90,6 +95,7 @@ namespace ATM_view
         }
         public void ViewReports()
         {
+            
             int ch = default;
             
             Console.WriteLine("Enter the type of report");
@@ -288,30 +294,52 @@ namespace ATM_view
             {
                 Console.WriteLine("No record found");
             }
+            adminBLL.save();
         }
-        public void DeleteAccount(int AccountNo)
+        public void DeleteAccount(string AccountNo)
         {
-            bool deleted = default;
-            string name = default;
-            Console.Write($"You wish to delete the account held by Mr {name}; If this information is correct please re-enter the account number : ");
-            int input = System.Convert.ToInt32(Console.ReadLine());
-            if (AccountNo == input)
+            int accNo = default;
+            try
             {
-                //delete function called in business logic layer
-                deleted = adminBLL.DeleteAccount(AccountNo);
-                if (deleted)
+                accNo = System.Convert.ToInt32(AccountNo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            bool deleted = default;
+            
+            List<string> list = new List<string>();
+            list.Add("AccountNumber");
+            List<Customer_BO> list2 = new List<Customer_BO>();
+            list2 = adminBLL.SearchAccount(AccountNo, "", "", "", "", "", list);
+            if (list2.Count != 0)
+            {
+                Console.Write($"You wish to delete the account held by Mr {list2[0].Name}; If this information is correct please re-enter the account number : ");
+                int input = System.Convert.ToInt32(Console.ReadLine());
+                if (accNo == input)
                 {
-                    Console.WriteLine("Account Deleted Successfully");
+                    //delete function called in business logic layer
+                    deleted = adminBLL.DeleteAccount(accNo);
+                    if (deleted)
+                    {
+                        Console.WriteLine("Account Deleted Successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Account not found");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Account not found");
+                    Console.WriteLine("Deletion canceled");
                 }
             }
             else
             {
-                Console.WriteLine("Deletion canceled");
+                Console.WriteLine("Account not found");
             }
+            adminBLL.save();
             Admin_menu();
         }
         public bool NewAccount()
@@ -382,6 +410,7 @@ namespace ATM_view
                
                 
             }
+            adminBLL.save();
             Admin_menu();
             return created;
         }

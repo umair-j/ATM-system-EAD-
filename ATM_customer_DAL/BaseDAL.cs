@@ -5,25 +5,36 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ATM_BO;
+using System.Data.Common;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ATM_DAL
 {
     public class BaseDAL
     {
-        Customer_BO bo;
-        public void Save(string Text,string Filename,bool app)
+        public void save(List<Customer_BO> list)
         {
-            string PathName = Path.Combine(Environment.CurrentDirectory, Filename);
-            StreamWriter sw = new StreamWriter(PathName, append : app);
-            sw.WriteLine(Text);
+            string PathName = Path.Combine(Environment.CurrentDirectory, "record.txt");
+            StreamWriter sw = new StreamWriter(PathName, append: false);
+            foreach (Customer_BO bo in list) {
+                string output = JsonSerializer.Serialize<Customer_BO>(bo);
+                sw.WriteLine(output);
+            }
+            
+
             sw.Close();
-
         }
-        public void ShowAll(string JSonStr)
+        
+        
+        public List<Customer_BO> load()
         {
-
-            bo = JsonSerializer.Deserialize<Customer_BO>(JSonStr);
-            Console.WriteLine($"name : {bo.Name} and ID : {bo.Login}");
+            List<Customer_BO> list = new List<Customer_BO>();
+            string[] data = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "record.txt"));
+            foreach (string d in data)
+            {
+                list.Add(JsonSerializer.Deserialize<Customer_BO>(d));
+            }
+            return list;
         }
         
     }
