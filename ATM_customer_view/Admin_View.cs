@@ -147,11 +147,17 @@ namespace ATM_view
                 //return to break out of function in case of error
                 return;
             }
+            List<Customer_BO> list = new List<Customer_BO>();
+            list = adminBLL.ReportByBalance(min, max);
             //apply calculations to find data
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
             Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
-
+            foreach (Customer_BO b in list)
+            {
+                Console.WriteLine($"{b.AccountNumber}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.AccountType}\t\t\t{b.Balance}\t\t\t{b.AccountStatus}\n");
+            }
+            Admin_menu();
         }
         public void ReportByDate()
         {
