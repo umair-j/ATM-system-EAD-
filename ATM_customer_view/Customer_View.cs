@@ -3,20 +3,26 @@ using ATM_BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace ATM_view
 {
     public class Customer_View
     {
+        public static int tries = 0;
+        //bool to check if user is authurized
         public static bool allow = false;
+        //cystomer business logic layer object created
         Customer_BLL cBLL = new Customer_BLL();
         public void CheckLogin()
         {
-            int tries = 0;
+
+
             int accountNumber = default;
             string login = default;
             int pin = default;
+            //get input from user
             Console.Write("Enter Login : ");
             login = Console.ReadLine();
             Console.Write("Enter Pin : ");
@@ -24,30 +30,37 @@ namespace ATM_view
             {
                 pin = System.Convert.ToInt32(Console.ReadLine());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            //check if login info is correct
             accountNumber = cBLL.CheckLogin(login, pin);
             if (accountNumber == -1)
             {
+                //if not then increment tries
                 tries++;
                 Console.WriteLine("Login failed!\nTry again");
 
             }
-            else {
+            else
+            {
+                //if login info is correct then let user go to menu
                 MainMenu(accountNumber);
             }
+
         }
+            
         public void MainMenu(int accountNumber)
         {
             
-                
+                //create variable to store option of operation user wants to perform 
                 int option = default;
                 Console.WriteLine("1----Withdraw Cash\n2----Cash Transfer\n3----Deposit Cash\n4----Display Balance\n5----Exit");
                 Console.WriteLine("Please select one of the above options:");
                 try
                 {
+                    //get option input from user
                     option = System.Convert.ToInt32(Console.ReadLine());
                 }
                 catch (Exception ex)
@@ -63,11 +76,11 @@ namespace ATM_view
                         switch (ch)
                         {
                             case "a":
-                                //fast cash
+                                //go to fast cash function
                                 FastCash(accountNumber);
                                 break;
                             case "b":
-                                //normal cash
+                                //go to normal cash function
                                 NormalCash(accountNumber);
                                 break;
                             default:
@@ -100,8 +113,11 @@ namespace ATM_view
         }
         public void Display(int accountNo)
         {
+            //create customer business object
             Customer_BO bo = new Customer_BO();
+            //call display function in business logic layer and return value to business object bo
             bo = cBLL.display(accountNo);
+            //display the details
             Console.Write($"Account # {bo.AccountNumber}");
             string date = bo.datetime.ToString("dd/MM/yyyy");
             Console.WriteLine("\n");
@@ -109,30 +125,38 @@ namespace ATM_view
             Console.WriteLine("\n");
 
             Console.Write($"Balance : {bo.Balance}\n");
+            //return to main menu
             MainMenu(accountNo);
         }
         public void Deposit(int accountNo)
         {
+
             int amount = default;
             Console.Write("Enter the cash amount to deposit : ");
             try
             {
+                //get amount input from user
                 amount = System.Convert.ToInt32(Console.ReadLine());
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            //if amount is a negative value or zero the display error message
             if(amount < 1)
             {
                 Console.WriteLine("Enter a valid amount");
             }
             else
             {
+                //create customer business object bo 
                 Customer_BO bo = new Customer_BO();
+                //call deposit function and return the value to bo
                 bo = cBLL.deposit(accountNo,amount);
-                //deposit
+                
+
                 Console.WriteLine("Cash deposited sucessfully");
+                //ask if user wants to print reciept
                 Console.Write("do you wish to print a receipt (Y/N) ? : ");
                 string confirm = Console.ReadLine();
                 if (confirm == "Y")
@@ -160,15 +184,17 @@ namespace ATM_view
                     Console.WriteLine("No valid option chosen");
                 }
             }
+            //return to main menu
             MainMenu(accountNo);
         }
         public void Transfer(int accountNo)
         {
+            //create variables for values to get user input in 
             string recAccountNo = default;
             int recieverAccountNo = default;
             int accountNoRe = default;
             int amount = default;
-            string name = default;
+            
             bool transferred = false;
             Console.Write("Enter amount in multiples of 500 : ");
             try
@@ -195,8 +221,11 @@ namespace ATM_view
                 {
                     Console.WriteLine(ex.Message);
                 }
+                //create a list to hold customer business objects
                 List<Customer_BO> found = new List<Customer_BO>();
+                //create a list to hold arguments to pass to search function
                 List<string> list = new List<string>();
+                //add only accountnumber so it can search based on only that
                 list.Add("AccountNumber");
                 Admin_BLL adminBLL = new Admin_BLL();
                 found = adminBLL.SearchAccount(recAccountNo, "", "", "", "", "",list);
@@ -271,6 +300,7 @@ namespace ATM_view
                     Console.WriteLine("No record found");
                 }
             }
+            //return to main menu
             MainMenu(accountNo);
         }
         public void FastCash(int accountNo)
@@ -282,6 +312,7 @@ namespace ATM_view
             
             try
             {
+                //get input from user
                 ch = System.Convert.ToInt32(Console.ReadLine());
             }
             catch (Exception ex)
@@ -294,6 +325,7 @@ namespace ATM_view
             }
             else
             {
+                //check input and assign amount variable appropriate value
                 switch (ch)
                 {
                     case 1:
@@ -323,9 +355,9 @@ namespace ATM_view
                 string confirm = Console.ReadLine();
                 if(confirm == "Y")
                 {
-
+                    //call withdraw function in business logic layer and return value to "bo" customer business object
                     Customer_BO bo = cBLL.Withdraw(accountNo, amount);
-                    if (bo.AccountNumber == accountNo)
+                    if (bo.AccountNumber!=-1)
                     {
                         Console.WriteLine("Cash successfully withdrawn!");
                         Console.Write("do you wish to print a receipt (Y/N) ? : ");
@@ -356,7 +388,8 @@ namespace ATM_view
                     }
                     else
                     {
-                        Console.WriteLine("Not enough amount present in account");
+                        
+                        Console.WriteLine("Withdrawal failed");
                     }
 
                 }
@@ -380,6 +413,7 @@ namespace ATM_view
 
             try
             {
+                //get user input and assign to amount
                 amount = System.Convert.ToInt32(Console.ReadLine());
             }
             catch (Exception ex)
@@ -397,9 +431,9 @@ namespace ATM_view
                 string confirm = Console.ReadLine();
                 if (confirm == "Y")
                 {
-
+                    //call withdraw function with amount
                     Customer_BO bo = cBLL.Withdraw(accountNo, amount);
-                    if (bo.AccountNumber == accountNo)
+                    if (bo.AccountNumber != -1)
                     {
                         Console.WriteLine("Cash successfully withdrawn!");
                         Console.Write("do you wish to print a receipt (Y/N) ? : ");
@@ -430,7 +464,7 @@ namespace ATM_view
                     }
                     else
                     {
-                        Console.WriteLine("Not enough amount present in account");
+                        Console.WriteLine("Withdrawal failed");
                     }
 
                 }
@@ -443,6 +477,7 @@ namespace ATM_view
                     Console.WriteLine("Please enter a valid option");
                 }
             }
+            //return to main menu
             MainMenu(accountNo);
         }
     }
