@@ -11,16 +11,19 @@ namespace ATM_view
     public class Admin_View
     {
         
-
+        //customer business object created
         public Customer_BO C_bo = new Customer_BO();
+        //admin business logic layer object created
         Admin_BLL adminBLL = new Admin_BLL();
+        //Base Data Access layer object created
         BaseDAL bdal = new BaseDAL();
         public void Admin_menu()
         {
-
+                //Load data from file
                 adminBLL.loadrecords();
                 int option = default;
-                 Console.WriteLine("------WELCOME TO ADMIN VIEW------");
+                
+                Console.WriteLine("------WELCOME TO ADMIN VIEW------");
                  Console.WriteLine(
                 "1----CREATE NEW ACCOUNT\n" +
                 "2----DELETE EXISTING ACCOUNT\n" +
@@ -30,6 +33,7 @@ namespace ATM_view
                 "6----EXIT");
                 try
                 {
+                    //get input from user 
                     option = System.Convert.ToInt32(Console.ReadLine());
                 }
             catch(Exception ex)
@@ -53,26 +57,29 @@ namespace ATM_view
                         bool b = NewAccount();
                         break;
                     case 2:
-                        //call delete existing account function
+                        //take user input
                         Console.Write("Enter the account number to which you want to delete : ");
                         try
                         {
                             string accountNo = Console.ReadLine();
+                            //call delete function with user input
                             DeleteAccount(accountNo);
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
+                            //go back to admin menu function
                             Admin_menu();
                         }
 
                         break;
                     case 3:
-                        //call update account information function
+                        //get user input
                         Console.Write("Enter the account number : ");
                         
-                            string accountNum = Console.ReadLine();
-                            Update(accountNum);
+                        string accountNum = Console.ReadLine();
+                        //call update function with input    
+                        Update(accountNum);
                         
                         break;
                     case 4:
@@ -85,17 +92,18 @@ namespace ATM_view
                         break;
                     case 6:
                         //call exit function
+                        //save data to file before exiting
                         adminBLL.save();
                         System.Environment.Exit(1);
                         break;
-
                 }
             }
+            //return to admin main menu
             Admin_menu();
         }
         public void ViewReports()
         {
-            
+            //initialize choice of user by default
             int ch = default;
             
             Console.WriteLine("Enter the type of report");
@@ -103,6 +111,7 @@ namespace ATM_view
             Console.WriteLine("2---Accounts by Date");
             try
             {
+                //get input about type of report to get by user
                 ch = System.Convert.ToInt32(Console.ReadLine());
                 
             }
@@ -112,28 +121,33 @@ namespace ATM_view
             }
             if(ch < 1 || ch > 2)
             {
+                //incase of invalid choice tell user
                 Console.WriteLine("Please enter a valid option (1 or 2) ");
             }
             else
             {
                 if(ch == 1)
                 {
+                    //call report by amount function
                     ReportByAmount();
                 }
                 else if(ch == 2)
                 {
+                    //call report by date function
                     ReportByDate();
                 }
             }
         }
         public void ReportByAmount()
         {
-            
+            //initialize minimum value with default
             int min = default;
+            //initialize maximum value with default
             int max = default;
             Console.Write("Enter the maximum amount : ");
             try
             {
+                //get maximum amount input from user
                 max = System.Convert.ToInt32(Console.ReadLine());
             }
             catch(Exception ex)
@@ -145,6 +159,7 @@ namespace ATM_view
             Console.Write("Enter the minimum amount : ");
             try
             {
+                //get minimum amount input from user
                 min = System.Convert.ToInt32(Console.ReadLine());
             }
             catch (Exception ex)
@@ -153,9 +168,11 @@ namespace ATM_view
                 //return to break out of function in case of error
                 return;
             }
+            //create empty list that will contain customer business objects that match the requirement
             List<Customer_BO> list = new List<Customer_BO>();
+            //get required customer business objects from function
             list = adminBLL.ReportByBalance(min, max);
-            //apply calculations to find data
+            
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
             Console.WriteLine("Account ID \t User ID \t Holder's Name \t Type \t Balance \t Status\n");
@@ -163,10 +180,12 @@ namespace ATM_view
             {
                 Console.WriteLine($"{b.AccountNumber}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.AccountType}\t\t\t{b.Balance}\t\t\t{b.AccountStatus}\n");
             }
+            //return to admin main menu
             Admin_menu();
         }
         public void ReportByDate()
         {
+            //initialize dates by default in two formats for ease in upcoming operations
             DateTime startDate = default;
             DateTime endDate = default;
             string startDatestr = default;
@@ -176,6 +195,7 @@ namespace ATM_view
             startDatestr = Console.ReadLine();
             try
             {
+                //get starting date input from user
                 startDate = DateTime.Parse(startDatestr);
             }
             catch(Exception ex)
@@ -187,14 +207,16 @@ namespace ATM_view
             endDatestr = Console.ReadLine();
             try
             {
+                //get ending date input from user
                 endDate = DateTime.Parse(endDatestr);
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            //put required customer business objects returned by function in list 
             List<Customer_BO> list = adminBLL.ReportByDate(startDate,endDate);
-            //apply calculations to find data
+            
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
             Console.WriteLine("Transaction Type \t User ID \t Holder's Name \t Amount \t Date\n");
@@ -203,12 +225,13 @@ namespace ATM_view
                 string date = b.datetime.ToString("dd/MM/yyyy");
                 Console.WriteLine($"{b.AccountType}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.Balance}\t\t\t{date}\n");
             }
+            //return to admin main menu
             Admin_menu();
 
         }
         public void Search()
         {
-            //default value
+            //initialize input variables with default value
             string balanceInput = default;
             string accountIdInput = default;
             string userIdInput = default;
@@ -216,8 +239,10 @@ namespace ATM_view
             string typeInput = default;
             string statusInput = default;
 
+            //create list of arguments to be sent that will have non empty values
             List<string> arguments = new List<string>();
 
+            //get inputs from user and store in input variables
             Console.WriteLine("SEARCH MENU\n");
             Console.Write("Account ID : ");
             accountIdInput = Console.ReadLine();
@@ -238,6 +263,7 @@ namespace ATM_view
             Console.Write("Status : ");
             statusInput = Console.ReadLine();
 
+            //add only non empty string values to list i.e if some account number is entered then put "AccountNumber" string in list
             if (accountIdInput != "") arguments.Add("AccountNumber");
 
             if (userIdInput != "") arguments.Add("Login");
@@ -250,6 +276,7 @@ namespace ATM_view
 
             if (statusInput != "") arguments.Add("AccountStatus");
 
+            //call search function with input variables and list as argument
             List<Customer_BO> list = adminBLL.SearchAccount(accountIdInput,userIdInput,nameInput,typeInput,balanceInput,statusInput,arguments);
 
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
@@ -259,19 +286,25 @@ namespace ATM_view
             {
                 Console.WriteLine($"{b.AccountNumber}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.AccountType}\t\t\t{b.Balance}\t\t\t{b.AccountStatus}\n");
             }
+            //return to admin main menu
             Admin_menu();
         }
+
         public void Update(string accountNum)
         {
+            //create bool variable to check if accountNumber entered is in record
             bool exists = false;
+            //put only "AccountNumber string in list to search only with Account number"
             List<string> arguments = new List<string>();
             arguments.Add("AccountNumber");
             List<Customer_BO> accountFound = adminBLL.SearchAccount(accountNum, "", "", "", "", "", arguments);
+            //if nothing in list then make exists bool false
             if (accountFound.Count == 0) exists = false;
             else
             {
                 exists = true;
             }
+            //if some record is found display its data
             if (exists)
             {
                 Customer_BO bo = accountFound.First();
@@ -284,6 +317,7 @@ namespace ATM_view
 
             Console.WriteLine("Please enter in the fields you wish to update (leave blank otherwise) : ");
 
+            //get input to update from user
             Console.Write("Login : ");
             string loginInput = Console.ReadLine();
             Console.Write("Pin code : ");
@@ -303,7 +337,10 @@ namespace ATM_view
             {
                 Console.WriteLine("No record found");
             }
+            //save data to file
             adminBLL.save();
+            //return to admin main menu
+            Admin_menu();
         }
         public void DeleteAccount(string AccountNo)
         {
@@ -318,14 +355,17 @@ namespace ATM_view
             }
             bool deleted = default;
             
+            //create list of arguments to pass to search function and put only account number in it
             List<string> list = new List<string>();
             list.Add("AccountNumber");
             List<Customer_BO> list2 = new List<Customer_BO>();
             list2 = adminBLL.SearchAccount(AccountNo, "", "", "", "", "", list);
+            //if some record is present with this account number
             if (list2.Count != 0)
             {
                 Console.Write($"You wish to delete the account held by Mr {list2[0].Name}; If this information is correct please re-enter the account number : ");
                 int input = System.Convert.ToInt32(Console.ReadLine());
+                //match re-entered acount number with previous one
                 if (accNo == input)
                 {
                     //delete function called in business logic layer
@@ -348,11 +388,14 @@ namespace ATM_view
             {
                 Console.WriteLine("Account not found");
             }
+            //save data to file
             adminBLL.save();
+            //return to admin main menu
             Admin_menu();
         }
         public bool NewAccount()
         {
+            //create variables to hold input
             string CustomerId = default;
             int CustomerPin = default;
             string CustomerName = default;
@@ -362,6 +405,7 @@ namespace ATM_view
 
             bool created = false;
             int accountNo = default;
+            //get data from admin and put in variables
             Console.Write("Login : ");
             CustomerId = Console.ReadLine();
             Console.Write("Pin Code : ");
@@ -380,7 +424,7 @@ namespace ATM_view
             CustomerName = Console.ReadLine();
             Console.Write("Type (savings/current) : ");
             Type = Console.ReadLine();
-            
+            //check if option entered is valid
             if (!(Type.Equals("savings")) && !(Type.Equals("current")))
             {
                 Console.WriteLine("Invalid type entered!");
@@ -419,7 +463,9 @@ namespace ATM_view
                
                 
             }
+            //save to file
             adminBLL.save();
+            //return to admin main menu
             Admin_menu();
             return created;
         }

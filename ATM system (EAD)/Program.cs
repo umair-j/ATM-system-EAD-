@@ -7,25 +7,29 @@ namespace ATM_system__EAD_
     {
         static void Main(string[] args)
         {
-            
+            //adminView object created
             Admin_View adV = new Admin_View();
+            //customerView object created 
             Customer_View csV = new Customer_View();
 
-
-            csV.CheckLogin();
-         
-                //adV.Admin_menu();
-                
-            
-            /*
-             * Admin_View adV = new Admin_View();
-            while (adV.Exited == false)
+            //asking user to choose between admin menu and customer menu(made for easy of testing)
+            Console.WriteLine("Enter 1 for Admin menu : ");
+            Console.WriteLine("Enter 2 for Customer menu : ");
+            string choice = Console.ReadLine();
+            //checking user input
+            if(choice == "1")
             {
-                
                 adV.Admin_menu();
-                //Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             }
-            */
+            else if (choice == "2")
+            {
+                csV.CheckLogin();
+            }
+            else
+            {
+                Console.WriteLine("Enter a valid choice (1 or 2)");
+            }
+            
         }
     }
 }

@@ -89,5 +89,29 @@ namespace ATM_BLL
             bDAL.save(record);
             return transfered;
         }
+
+        public Customer_BO Withdraw(int accountNo, int amount)
+        {
+            record = bDAL.load();
+            Customer_BO cbo = new Customer_BO();
+            foreach(Customer_BO bo in record)
+            {
+                if (accountNo == bo.AccountNumber)
+                {
+                    cbo = bo;
+                    if (cbo.Balance >= amount)
+                    {
+                        cbo.Balance -= amount;
+                    }
+                    else
+                    {
+                        cbo.AccountNumber = -1;
+                    }
+                }
+            }
+            bDAL.save(record);
+            return cbo;
+            
+        }
     }
 }

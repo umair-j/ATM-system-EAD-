@@ -42,7 +42,7 @@ namespace ATM_view
         public void MainMenu(int accountNumber)
         {
             
-
+                
                 int option = default;
                 Console.WriteLine("1----Withdraw Cash\n2----Cash Transfer\n3----Deposit Cash\n4----Display Balance\n5----Exit");
                 Console.WriteLine("Please select one of the above options:");
@@ -64,11 +64,11 @@ namespace ATM_view
                         {
                             case "a":
                                 //fast cash
-                                FastCash();
+                                FastCash(accountNumber);
                                 break;
                             case "b":
                                 //normal cash
-                                NormalCash();
+                                NormalCash(accountNumber);
                                 break;
                             default:
                                 Console.WriteLine("Please enter a valid option        (**Either a or b)");
@@ -273,7 +273,7 @@ namespace ATM_view
             }
             MainMenu(accountNo);
         }
-        public void FastCash()
+        public void FastCash(int accountNo)
         {
             int ch = default;
             int amount = default;
@@ -318,18 +318,49 @@ namespace ATM_view
                         amount = 20000;
                         break;
                 }
+                string choice = default;
                 Console.Write($"Are you sure you want to withdraw Rs.{amount} (Y/N)?");
                 string confirm = Console.ReadLine();
                 if(confirm == "Y")
                 {
-                    //carry out withdrawl
-                    //Cash successfully withdrawn if there is money present
-                    //Display account number
-                    //Display Withdrawn:amount
-                    //Display balance
+
+                    Customer_BO bo = cBLL.Withdraw(accountNo, amount);
+                    if (bo.AccountNumber == accountNo)
+                    {
+                        Console.WriteLine("Cash successfully withdrawn!");
+                        Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                        choice = Console.ReadLine();
+                        if (choice == "Y")
+                        {
+                            Console.WriteLine("\n");
+
+                            //Display account number
+                            Console.Write($"Account # {accountNo}");
+                            string date = bo.datetime.ToString("dd/MM/yyyy");
+                            Console.WriteLine("\n");
+                            Console.Write(date);
+                            Console.WriteLine("\n");
+                            Console.WriteLine($"Withdrawn : {amount }");
+                            Console.Write($"Balance : {bo.Balance}\n");
+                            
+
+                        }
+                        else if (choice == "N")
+                        {
+                            Console.WriteLine("Receipt will not be printed!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No valid option chosen");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not enough amount present in account");
+                    }
 
                 }
-                else if(confirm == "N")
+                else if(choice == "N")
                 {
                     Console.WriteLine("Withdrawal canceled");
                 }
@@ -338,29 +369,72 @@ namespace ATM_view
                     Console.WriteLine("Please enter a valid option");
                 }
             }
+            MainMenu(accountNo);
         }
-        public void NormalCash()
+        public void NormalCash(int accountNo)
         {
-            bool withdrawal = false;
+            
+            int amount = default;
+            
             Console.Write("Enter the withdrawal amount : ");
-            //call withdrawnormalcash method
-            //display cash successfully withdrawn
-            withdrawal = true;
-            if (withdrawal)
+
+            try
             {
-                Console.WriteLine("Cash successfully withdrawn!");
-                Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                amount = System.Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (amount < 1)
+            {
+                Console.WriteLine("Invalid amount entered");
+            }
+            else
+            {
+                string choice = default;
+                Console.Write($"Are you sure you want to withdraw Rs.{amount} (Y/N)?");
                 string confirm = Console.ReadLine();
                 if (confirm == "Y")
                 {
-                    //carry out withdrawl
-                    //Cash successfully withdrawn if there is money present
-                    //Display account number
-                    //Display Withdrawn:amount
-                    //Display balance
+
+                    Customer_BO bo = cBLL.Withdraw(accountNo, amount);
+                    if (bo.AccountNumber == accountNo)
+                    {
+                        Console.WriteLine("Cash successfully withdrawn!");
+                        Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                        choice = Console.ReadLine();
+                        if (choice == "Y")
+                        {
+                            Console.WriteLine("\n");
+
+                            //Display account number
+                            Console.Write($"Account # {accountNo}");
+                            string date = bo.datetime.ToString("dd/MM/yyyy");
+                            Console.WriteLine("\n");
+                            Console.Write(date);
+                            Console.WriteLine("\n");
+                            Console.WriteLine($"Withdrawn : {amount }");
+                            Console.Write($"Balance : {bo.Balance}\n");
+
+
+                        }
+                        else if (choice == "N")
+                        {
+                            Console.WriteLine("Receipt will not be printed!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No valid option chosen");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not enough amount present in account");
+                    }
 
                 }
-                else if (confirm == "N")
+                else if (choice == "N")
                 {
                     Console.WriteLine("Withdrawal canceled");
                 }
@@ -369,7 +443,7 @@ namespace ATM_view
                     Console.WriteLine("Please enter a valid option");
                 }
             }
-
+            MainMenu(accountNo);
         }
     }
 }
