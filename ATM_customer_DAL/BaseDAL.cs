@@ -28,12 +28,21 @@ namespace ATM_DAL
         
         public List<Customer_BO> load()
         {
+            string[] data;
             List<Customer_BO> list = new List<Customer_BO>();
-            string[] data = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "record.txt"));
-            foreach (string d in data)
+            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "record.txt")))
             {
-                list.Add(JsonSerializer.Deserialize<Customer_BO>(d));
+                File.WriteAllText((Path.Combine(Environment.CurrentDirectory, "record.txt")), String.Empty);
             }
+            else
+            {
+                data = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "record.txt"));
+                foreach (string d in data)
+                {
+                    list.Add(JsonSerializer.Deserialize<Customer_BO>(d));
+                }
+            }
+            
             return list;
         }
         

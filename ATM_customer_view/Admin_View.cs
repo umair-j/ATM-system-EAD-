@@ -167,34 +167,43 @@ namespace ATM_view
         }
         public void ReportByDate()
         {
-            string startDate = default;
-            string endDate = default;
+            DateTime startDate = default;
+            DateTime endDate = default;
+            string startDatestr = default;
+            string endDatestr = default;
             Console.Write("Enter the starting date : ");
+            
+            startDatestr = Console.ReadLine();
             try
             {
-                startDate = Console.ReadLine();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                //return to break out of function in case of error
-                return;
-            }
-            Console.Write("Enter the ending date : ");
-            try
-            {
-                endDate = Console.ReadLine();
+                startDate = DateTime.Parse(startDatestr);
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //return to break out of function in case of error
-                return;
             }
+               
+            Console.Write("Enter the ending date : ");
+            endDatestr = Console.ReadLine();
+            try
+            {
+                endDate = DateTime.Parse(endDatestr);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            List<Customer_BO> list = adminBLL.ReportByDate(startDate,endDate);
             //apply calculations to find data
             Console.WriteLine("\n==== SEARCH RESULTS ====\n");
             //display users' data in required format
             Console.WriteLine("Transaction Type \t User ID \t Holder's Name \t Amount \t Date\n");
+            foreach (Customer_BO b in list)
+            {
+                string date = b.datetime.ToString("dd/MM/yyyy");
+                Console.WriteLine($"{b.AccountType}\t\t\t{b.Login}\t\t\t{b.Name}\t\t\t{b.Balance}\t\t\t{date}\n");
+            }
+            Admin_menu();
 
         }
         public void Search()

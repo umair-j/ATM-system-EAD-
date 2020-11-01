@@ -12,12 +12,11 @@ namespace ATM_system__EAD_
             Customer_View csV = new Customer_View();
 
 
-            //csV.MainMenu();
-            while (true)
-            {
-                adV.Admin_menu();
+            csV.CheckLogin();
+         
+                //adV.Admin_menu();
                 
-            }
+            
             /*
              * Admin_View adV = new Admin_View();
             while (adV.Exited == false)

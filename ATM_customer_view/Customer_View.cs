@@ -1,4 +1,5 @@
-﻿using ATM_BO;
+﻿using ATM_BLL;
+using ATM_BO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,70 +8,109 @@ namespace ATM_view
 {
     public class Customer_View
     {
-        public void MainMenu()
+        public static bool allow = false;
+        Customer_BLL cBLL = new Customer_BLL();
+        public void CheckLogin()
         {
-            int option = default;
-            Console.WriteLine("1----Withdraw Cash\n2----Cash Transfer\n3----Deposit Cash\n4----Display Balance\n5----Exit");
-            Console.WriteLine("Please select one of the above options:");
+            int tries = 0;
+            int accountNumber = default;
+            string login = default;
+            int pin = default;
+            Console.Write("Enter Login : ");
+            login = Console.ReadLine();
+            Console.Write("Enter Pin : ");
             try
             {
-                option = System.Convert.ToInt32(Console.ReadLine());
+                pin = System.Convert.ToInt32(Console.ReadLine());
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            switch (option)
+            accountNumber = cBLL.CheckLogin(login, pin);
+            if (accountNumber == -1)
             {
-                case 1:
-                    Console.WriteLine("a)Fast Cash\nb)Normal Cash");
-                    Console.Write("Please select a mode of withdrawal:");
-                    string ch = Console.ReadLine();
-                    switch (ch)
-                    {
-                        case "a":
-                            //fast cash
-                            FastCash();
-                            break;
-                        case "b":
-                            //normal cash
-                            NormalCash();
-                            break;
-                        default:
-                            Console.WriteLine("Please enter a valid option        (**Either a or b)");
-                            break;
-                    }
-                    
+                tries++;
+                Console.WriteLine("Login failed!\nTry again");
 
-                    break;
-                case 2:
-                    //Transfer function call
-                    Transfer();
-                    break;
-                case 3:
-                    //Deposit function call
-                    Deposit();
-                    break;
-                case 4:
-                    //Display function call
-                    Display();
-                    break;
-                case 5:
-                    //Exit function call
-                    break;
-                default:
-                    Console.WriteLine("Please enter a valid option");
-                    break;
+            }
+            else {
+                MainMenu(accountNumber);
             }
         }
-        public void Display()
+        public void MainMenu(int accountNumber)
         {
-            int accountNo = default;
-            int balance = default;
-            Console.WriteLine($"Account number : {accountNo}");
-            Console.WriteLine($"Balance : {balance}");
+            
+
+                int option = default;
+                Console.WriteLine("1----Withdraw Cash\n2----Cash Transfer\n3----Deposit Cash\n4----Display Balance\n5----Exit");
+                Console.WriteLine("Please select one of the above options:");
+                try
+                {
+                    option = System.Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                switch (option)
+                {
+                    case 1:
+                        Console.WriteLine("a)Fast Cash\nb)Normal Cash");
+                        Console.Write("Please select a mode of withdrawal:");
+                        string ch = Console.ReadLine();
+                        switch (ch)
+                        {
+                            case "a":
+                                //fast cash
+                                FastCash();
+                                break;
+                            case "b":
+                                //normal cash
+                                NormalCash();
+                                break;
+                            default:
+                                Console.WriteLine("Please enter a valid option        (**Either a or b)");
+                                break;
+                        }
+
+
+                        break;
+                    case 2:
+                        //Transfer function call
+                        Transfer();
+                        break;
+                    case 3:
+                        //Deposit function call
+                        Deposit(accountNumber);
+                        break;
+                    case 4:
+                        //Display function call
+                        Display(accountNumber);
+                        break;
+                    case 5:
+                        //Exit function call
+                        break;
+                    default:
+                        Console.WriteLine("Please enter a valid option");
+                        break;
+                }
+            
         }
-        public void Deposit()
+        public void Display(int accountNo)
+        {
+            Customer_BO bo = new Customer_BO();
+            bo = cBLL.display(accountNo);
+            Console.Write($"Account # {bo.AccountNumber}");
+            string date = bo.datetime.ToString("dd/MM/yyyy");
+            Console.WriteLine("\n");
+            Console.Write(date);
+            Console.WriteLine("\n");
+
+            Console.Write($"Balance : {bo.Balance}\n");
+            MainMenu(accountNo);
+        }
+        public void Deposit(int accountNo)
         {
             int amount = default;
             Console.Write("Enter the cash amount to deposit : ");
@@ -88,15 +128,24 @@ namespace ATM_view
             }
             else
             {
+                Customer_BO bo = new Customer_BO();
+                bo = cBLL.deposit(accountNo,amount);
                 //deposit
                 Console.WriteLine("Cash deposited sucessfully");
                 Console.Write("do you wish to print a receipt (Y/N) ? : ");
                 string confirm = Console.ReadLine();
                 if (confirm == "Y")
                 {
-
+                    Console.WriteLine("\n");
 
                     //Display account number
+                    Console.Write($"Account # {bo.AccountNumber}");
+                    string date = bo.datetime.ToString("dd/MM/yyyy");
+                    Console.WriteLine("\n");
+                    Console.Write(date);
+                    Console.WriteLine("\n");
+                    Console.WriteLine($"Depostited : {amount }");
+                    Console.Write($"Balance : {bo.Balance}\n");
                     //Display Deposited amount:amount
                     //Display balance
 
@@ -110,7 +159,7 @@ namespace ATM_view
                     Console.WriteLine("No valid option chosen");
                 }
             }
-
+            MainMenu(accountNo);
         }
         public void Transfer()
         {

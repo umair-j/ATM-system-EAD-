@@ -228,7 +228,20 @@ namespace ATM_BLL
             
             
         }
-        
+
+        public List<Customer_BO> ReportByDate(DateTime startDate, DateTime endDate)
+        {
+            List<Customer_BO> list = new List<Customer_BO>();
+            foreach(Customer_BO bo in record)
+            {
+                if(bo.datetime>=startDate && bo.datetime <= endDate)
+                {
+                    list.Add(bo);
+                }
+            }
+            return list;
+        }
+
         public List<Customer_BO> ReportByBalance(int min,int max)
         {
             List<Customer_BO> list = new List<Customer_BO>();

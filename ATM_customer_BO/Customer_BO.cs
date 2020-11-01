@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using System.Text;
 
 namespace ATM_BO
@@ -17,5 +18,10 @@ namespace ATM_BO
         public string Name { get; set; }
         public string AccountStatus { get; set; }
         public string AccountType { get; set; }
+        public DateTime datetime { get; set; }
+        public Customer_BO()
+        {
+            datetime = DateTime.Now;
+        }
     }
 }
