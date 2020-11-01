@@ -67,6 +67,7 @@ namespace ATM_BLL
 
         public List<Customer_BO> SearchAccount(string accountIdInput, string userIdInput, string nameInput, string typeInput, string balanceInput, string statusInput, List<string> arguments)
         {
+            record = bDAL.load();
             List<Customer_BO> l1 = new List<Customer_BO>();
 
             List<Customer_BO> l2 = new List<Customer_BO>();

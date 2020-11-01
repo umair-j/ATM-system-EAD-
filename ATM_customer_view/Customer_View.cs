@@ -2,6 +2,7 @@
 using ATM_BO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ATM_view
@@ -78,7 +79,7 @@ namespace ATM_view
                         break;
                     case 2:
                         //Transfer function call
-                        Transfer();
+                        Transfer(accountNumber);
                         break;
                     case 3:
                         //Deposit function call
@@ -161,9 +162,10 @@ namespace ATM_view
             }
             MainMenu(accountNo);
         }
-        public void Transfer()
+        public void Transfer(int accountNo)
         {
-            int accountNo = default;
+            string recAccountNo = default;
+            int recieverAccountNo = default;
             int accountNoRe = default;
             int amount = default;
             string name = default;
@@ -186,50 +188,90 @@ namespace ATM_view
                 Console.Write("Enter the account number to which you want to transfer : ");
                 try
                 {
-                    accountNo = System.Convert.ToInt32(Console.ReadLine());
+                    recAccountNo = Console.ReadLine();
+                    recieverAccountNo = System.Convert.ToInt32(recAccountNo);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                Console.Write($"You wish to deposit Rs {amount} in account held by Mr. {name} ; If this information is correct then please re-enter the account number: ");
-                try
+                List<Customer_BO> found = new List<Customer_BO>();
+                List<string> list = new List<string>();
+                list.Add("AccountNumber");
+                Admin_BLL adminBLL = new Admin_BLL();
+                found = adminBLL.SearchAccount(recAccountNo, "", "", "", "", "",list);
+                if (found.Count != 0)
                 {
-                    accountNoRe = System.Convert.ToInt32(Console.ReadLine());
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                if (accountNo == accountNoRe)
-                {
-                    //call transaction function
-                    transferred = true;
-                }
-                if (transferred)
-                {
-                    Console.WriteLine("Transaction confirmed");
-                }
-                Console.Write("do you wish to print a receipt (Y/N) ? : ");
-                string confirm = Console.ReadLine();
-                if (confirm == "Y")
-                {
+                    Customer_BO recieverObj = found.First();
+                    Console.Write($"You wish to deposit Rs {amount} in account held by Mr. {recieverObj.Name} ; If this information is correct then please re-enter the account number: ");
+                    try
+                    {
+                        accountNoRe = System.Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    if (recieverAccountNo == accountNoRe)
+                    {
+                        //call transaction function
+                        transferred = cBLL.Transfer(accountNo, recieverAccountNo, amount);
+
+                    }
+                    if (transferred)
+                    {
+                        Console.WriteLine("Transaction confirmed");
+
+                        Console.Write("do you wish to print a receipt (Y/N) ? : ");
+                        string confirm = Console.ReadLine();
+                        if (confirm == "Y")
+                        {
+                            List<Customer_BO> senderlist = new List<Customer_BO>();
+                            List<string> listTemp = new List<string>();
+                            listTemp.Add("AccountNumber");
+
+                            senderlist = adminBLL.SearchAccount(accountNo.ToString(), "", "", "", "", "", listTemp);
+                            Customer_BO sender = senderlist.First();
+
+                            Console.WriteLine("\n");
+
+                            //Display account number
+                            Console.Write($"Account # {sender.AccountNumber}");
+                            string date = sender.datetime.ToString("dd/MM/yyyy");
+                            Console.WriteLine("\n");
+                            Console.Write(date);
+                            Console.WriteLine("\n");
+                            Console.WriteLine($"Depostited : {amount }");
+                            Console.Write($"Balance : {sender.Balance}\n");
+                            //Display Deposited amount:amount
+                            //Display balance
+
+                        }
+                        else if (confirm == "N")
+                        {
+                            Console.WriteLine("Receipt will not be printed!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No valid option chosen");
+                        }
 
 
-                    //Display account number
-                    //Display Transferred:amount
-                    //Display balance
 
-                }
-                else if (confirm == "N")
-                {
-                    Console.WriteLine("Receipt will not be printed!");
+                    }
+
+
+                    else if (transferred == false)
+                    {
+                        Console.WriteLine("Transfer failed");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("No valid option chosen");
+                    Console.WriteLine("No record found");
                 }
             }
+            MainMenu(accountNo);
         }
         public void FastCash()
         {
